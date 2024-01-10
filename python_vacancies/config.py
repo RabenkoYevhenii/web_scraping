@@ -59,7 +59,6 @@ TECHNOLOGIES = [
     "Jira",
     "PostgreSQL",
     "Microsoft Azure",
-    "AI",
     "Celery",
     "Redis",
     "Vue",
