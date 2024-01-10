@@ -11,11 +11,17 @@ class DjinniVacanciesSpider(scrapy.Spider):
 
     def parse(self, response: Response, **kwargs):
         for vacancy in response.css(".job-list-item"):
-            vacancy_detail_url = vacancy.css(".job-list-item__link::attr(href)").get()
+            vacancy_detail_url = (
+                vacancy.css(".job-list-item__link::attr(href)").get()
+            )
 
-            yield response.follow(vacancy_detail_url, callback=self._parse_single_vacancy)
+            yield response.follow(
+                vacancy_detail_url, callback=self._parse_single_vacancy
+            )
 
-        next_page = response.css('li.page-item:last-child a.page-link::attr(href)').get()
+        next_page = response.css(
+            "li.page-item:last-child a.page-link::attr(href)"
+        ).get()
         if next_page:
             yield response.follow(next_page, callback=self.parse)
 
@@ -25,8 +31,10 @@ class DjinniVacanciesSpider(scrapy.Spider):
             "Technologies": self._find_technologies(response),
             "Company": response.css(".job-details--title::text").get().strip(),
             "Salary": response.css(".public-salary-item::text").get(),
-            "English level": response.xpath('//div[contains(text(), "Англійська:")]/text()').get(),
-            "Url": response.url
+            "English level": response.xpath(
+                '//div[contains(text(), "Англійська:")]/text()'
+            ).get(),
+            "Url": response.url,
         }
 
     def _find_technologies(self, response: Response) -> list:
