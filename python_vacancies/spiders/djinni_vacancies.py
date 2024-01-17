@@ -26,14 +26,19 @@ class DjinniVacanciesSpider(scrapy.Spider):
             yield response.follow(next_page, callback=self.parse)
 
     def _parse_single_vacancy(self, response: Response):
+        english_level_text = response.xpath(
+            '//div[contains(text(), "Англійська:")]/text()'
+        ).get()
+
+        english_level = (
+            english_level_text.replace("Англійська:", "").strip() \
+            if english_level_text else ""
+        )
+
         yield {
             "Title": response.css("h1::text").get().strip(),
             "Technologies": self._find_technologies(response),
-            "Company": response.css(".job-details--title::text").get().strip(),
-            "Salary": response.css(".public-salary-item::text").get(),
-            "English level": response.xpath(
-                '//div[contains(text(), "Англійська:")]/text()'
-            ).get(),
+            "English level": english_level,
             "Url": response.url,
         }
 
