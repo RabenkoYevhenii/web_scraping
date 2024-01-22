@@ -61,5 +61,5 @@ scrapy crawl vacancies -O vacancies.csv
 8. **Click button "Run all" (Ctrl + Alt + Shift + Enter)**
 
 ## Sample Results
-![technologies.png](python_vacancies/demo/technologies.png)
-![english.png](python_vacancies/demo/english.png)
+![technologies.png](demo/technologies.png)
+![english.png](demo/english.png)
